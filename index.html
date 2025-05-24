@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Multi-Tool Landing Page</title>
+  <link rel="stylesheet" href="style3.css" />
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("mobile-menu");
+      menu.classList.toggle("hidden");
+    }
+  </script>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="brand">ToolBox</div>
+      <div class="nav-links desktop-menu">
+        <a href="#">Home</a>
+        <a href="#tools">Tools</a>
+        <a href="#">Notes</a>
+        <a href="#">Fitness</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact Us</a>
+      </div>
+      <div class="menu-button mobile-only">
+        <button onclick="toggleMenu()">
+          <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu hidden">
+      <a href="#">Home</a>
+      <a href="#tools">Tools</a>
+      <a href="#">Notes</a>
+      <a href="#">Fitness</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="overlay"></div>
+    <div class="hero-text">
+      <h1>Welcome to ToolBox</h1>
+      <p>All-in-One Tool Suite for Everyday Tasks</p>
+    </div>
+  </header>
+
+  <!-- Tools Section -->
+  <section id="tools" class="tools-section">
+    <div class="tools-container">
+      <h2>Our Tools</h2>
+      <div class="tools-grid">
+        <a href="/unit-converter.html" class="tool-card blue">Unit Converter</a>
+        <a href="/calculator.html" class="tool-card green">Calculator</a>
+        <a href="/currency-converter.html" class="tool-card yellow">Currency Converter</a>
+        <a href="/bmi-calculator.html" class="tool-card pink">BMI Calculator</a>
+        <a href="/age-calculator.html" class="tool-card purple">Age Calculator</a>
+        <a href="/loan-calculator.html" class="tool-card red">Loan Calculator</a>
+        <a href="/tip-calculator.html" class="tool-card indigo">Tip Calculator</a>
+        <a href="/discount-calculator.html" class="tool-card teal">Discount Calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 ToolBox. All rights reserved.</p>
+  </footer>
+</body>
+</html>

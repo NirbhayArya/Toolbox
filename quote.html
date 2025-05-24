@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quote Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 500px;
+      width: 90%;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .quote {
+      font-size: 20px;
+      font-style: italic;
+      margin-bottom: 20px;
+      min-height: 80px;
+    }
+
+    select, button {
+      font-size: 16px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    select {
+      background-color: #f0f0f0;
+      color: #333;
+    }
+
+    button {
+      background-color: #ff6f61;
+      color: #fff;
+    }
+
+    button:hover {
+      background-color: #e55b4c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Quote Generator</h1>
+    <div class="quote" id="quote">Select a category and click Generate!</div>
+    <select id="category">
+      <option value="motivational">Motivational</option>
+      <option value="study">Study / Education</option>
+    </select>
+    <button onclick="generateQuote()">Generate</button>
+  </div>
+
+  <script>
+    const quotes = {
+      motivational: [
+  "Don't watch the clock; do what it does. Keep going. – Sam Levenson",
+  "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+  "Push yourself, because no one else is going to do it for you.",
+  "Your limitation—it’s only your imagination.",
+  "Dream it. Wish it. Do it.",
+  "You get what you give. – Jennifer Lopez",
+  "Your life only gets better when you get better. – Brian Tracy",
+  "Happiness is not by chance, but by choice. – Jim Rohn",
+  "Be the change that you wish to see in the world. – Mahatma Gandhi",
+  "If I cannot do great things, I can do small things in a great way. – Martin Luther King Jr.",
+  "We generate fears while we sit. We overcome them by action. – Dr. Henry Link",
+  "Today’s accomplishments were yesterday’s impossibilities. – Robert H. Schuller",
+  "When you undervalue what you do, the world will undervalue who you are. – Oprah Winfrey",
+  "Do what you can, with what you have, where you are. – Theodore Roosevelt",
+  "It takes a touch of genius — and a lot of courage — to move in the opposite direction. – Albert Einstein",
+  "A change is brought about because ordinary people do extraordinary things. – Barack Obama",
+  "When you have a dream, you’ve got to grab it and never let go. – Carol Burnett",
+  "It does not matter how slowly you go as long as you do not stop. – Confucius",
+  "It is better to fail in originality than to succeed in imitation. – Herman Melville",
+  "The secret of getting ahead is getting started. – Mark Twain",
+  "You have to fight to reach your dream. You have to sacrifice and work hard for it. – Lionel Messi",
+  "Perseverance and spirit have done wonders in all ages. – George Washington",
+  "We are what we repeatedly do. Excellence, then, is not an act, but a habit. – Aristotle",
+  "In matters of style, swim with the current; in matters of principle, stand like a rock. – Thomas Jefferson",
+  "Do not wait for leaders; do it alone, person to person. – Mother Teresa",
+  "If you want to change the world, change yourself. – Mahatma Gandhi",
+  "Science is magic that works. – Kurt Vonnegut",
+  "What you learn from a life in science is the vastness of our ignorance. – David Eagleman",
+  "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. – Stephen Hawking",
+  "Science is a way of thinking much more than it is a body of knowledge. – Carl Sagan",
+  "Intelligence plus character – that is the goal of true education. – Martin Luther King Jr.",
+  "The biggest risk is not taking any risk… In a world that’s changing really quickly, the only strategy that is guaranteed to fail is not taking risks. – Mark Zuckerberg",
+  "Don’t be afraid to fail. Be afraid not to try. – Michael Jordan",
+  "If you want to achieve greatness, stop asking for permission. – Eddie Colla",
+  "Take risks. If you win, you’ll be happy. If you lose, you’ll be wise. – Gina Milicia",
+  "Do not be afraid to take chances or fall down. Every failure is a step toward success. – Oprah Winfrey",
+  "Just do it. – Dan Wieden",
+  "Don’t wait for opportunity. Create it. – Stephen C. Hogan",
+  "You miss 100% of the shots you don’t take. – Wayne Gretzky",
+  "If you’re not willing to risk, you cannot grow. If you cannot grow, you cannot become your best. If you cannot become your best, you cannot be happy. If you cannot be happy, what else is there? – Les Brown",
+  "You can’t cross the sea merely by standing and staring at the water. – Rabindranath Tagore",
+  "I always wanted to be somebody, but now I realize I should have been more specific. – Lily Tomlin",
+  "I’m not great at the advice. Can I interest you in a sarcastic comment? – Chandler Bing",
+  "The elevator to success is out of order. You’ll have to use the stairs… one step at a time. – Joe Girard",
+  "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book. – Groucho Marx",
+  "If at first, you don’t succeed, then skydiving definitely isn’t for you. – Steven Wright",
+  "Always remember that you are absolutely unique. Just like everyone else. – Margaret Mead",
+  "My advice to you is get married: If you find a good wife you’ll be happy; if not, you’ll become a philosopher. – Socrates",
+  "I’m sorry, if you were right, I’d agree with you. – Robin Williams",
+  "Life is hard. After all, it kills you. – Katharine Hepburn",
+  "Life is either a daring adventure or nothing at all. – Helen Keller",
+  "The purpose of life is to live it, to taste experience to the utmost, to reach out eagerly and without fear for a newer and richer experience. – Eleanor Roosevelt",
+  "Life is like riding a bicycle. To keep your balance, you must keep moving. – Albert Einstein",
+  "Get busy living or get busy dying. – Stephen King",
+  "A life is not important except in the impact it has on other lives. – Jackie Robinson",
+  "The biggest adventure you can ever take is to live the life of your dreams. – Oprah Winfrey",
+  "Life is a great big canvas, and you should throw all the paint on it you can. – Danny Kaye",
+  "May you live all the days of your life. – Jonathan Swift",
+  "Life is not a problem to be solved, but a reality to be experienced. – Soren Kierkegaard",
+  "The art of life is to know how to enjoy a little and to endure very much. – William Hazlitt",
+  "The man who does not read books has no advantage over the one who cannot read them. – Mark Twain",
+  "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. – Christian D. Larson",
+  "Education is the passport to the future, for tomorrow belongs to those who prepare for it today. – Malcolm X",
+  "Don’t let yesterday take up too much of today. – Will Rogers",
+  "I choose to make the rest of my life the best of my life. – Louise Hay",
+  "Nothing can dim the light that shines from within. – Maya Angelou",
+  "Be so good they can’t ignore you. – Steve Martin",
+  "You’re so much stronger than your excuses.",
+  "Don’t compare yourself to others. Be like the sun and the moon and shine when it’s your time.",
+  "Don’t tell everyone your plans, instead show them your results.",
+  "Work hard in silence, let your success be your noise.",
+  "When you feel like quitting think about why you started.",
+  "The first step to getting anywhere is deciding you’re no longer willing to stay where you are.",
+  "Strive for progress, not perfection.",
+  "I can do all things through Christ who strengthens me.",
+  "Just stick with it. What seems so hard now will one day be your warm up.",
+  "Entrepreneurship is living a few years of your life like most people won’t, so that you can spend the rest of your life like most people can’t.",
+  "Starve your distractions, feed your focus.",
+  "Everybody wants happiness, nobody wants pain, but you can’t have a rainbow without a little rain.",
+  "Someone once told me the definition of Hell: The last day you have on earth, the person you became will meet the person you could have become.",
+  "If you don’t sacrifice for what you want, what you want becomes the sacrifice.",
+  "I’m too busy working on my own grass to notice if yours is greener.",
+  "I need a six month vacation twice a year.",
+  "Next time you think of beautiful things, don’t forget to count yourself in.",
+  "The real trouble with reality is that there is no background music.",
+  "You live, you learn, and you upgrade.",
+  "It hurts now, but one day it will be your warm up.",
+  "The pain you feel today is the strength you’ll feel tomorrow.",
+  "Summer bodies are made in the winter.",
+  "Excuses don’t burn calories.",
+  "Obsessed is a word the lazy use to describe the dedicated.",
+  "Dad is a son's first hero and a daughter's first love.",
+  "You’re only one workout away from a good mood.",
+  "Focus on where you want to go, not on what you fear. – Tony Robbins",
+  "Change happens when the pain of staying the same is greater than the pain of change. – Tony Robbins",
+  "Repetition is the mother of skill. – Tony Robbins",
+  "No matter how many mistakes you make or how slow you progress, you are still way ahead of everyone who isn’t trying. – Tony Robbins",
+  "Whatever you focus on is what you get. – Tony Robbins",
+  "Progress equals happiness. – Tony Robbins",
+  "If you do what you’ve always done, you’ll get what you’ve always gotten. – Tony Robbins",
+  "Stay committed to your decisions, but stay flexible in your approach. – Tony Robbins",
+  "If you want to take the island, then burn your boats. With absolute commitment come the insights that create real victory. – Tony Robbins",
+  
+  "Don't watch the clock; do what it does. Keep going. – Sam Levenson",
+  "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+  "Push yourself, because no one else is going to do it for you.",
+  "Your limitation—it’s only your imagination.",
+  "Dream it. Wish it. Do it.",
+  "You get what you give. – Jennifer Lopez",
+  "Your life only gets better when you get better. – Brian Tracy",
+  "Happiness is not by chance, but by choice. – Jim Rohn",
+  "Be the change that you wish to see in the world. – Mahatma Gandhi",
+  "If I cannot do great things, I can do small things in a great way. – Martin Luther King Jr.",
+  "We generate fears while we sit. We overcome them by action. – Dr. Henry Link",
+  "Today’s accomplishments were yesterday’s impossibilities. – Robert H. Schuller",
+  "When you undervalue what you do, the world will undervalue who you are. – Oprah Winfrey",
+  "Do what you can, with what you have, where you are. – Theodore Roosevelt",
+  "It takes a touch of genius — and a lot of courage — to move in the opposite direction. – Albert Einstein",
+  "A change is brought about because ordinary people do extraordinary things. – Barack Obama",
+  "When you have a dream, you’ve got to grab it and never let go. – Carol Burnett",
+  "It does not matter how slowly you go as long as you do not stop. – Confucius",
+  "It is better to fail in originality than to succeed in imitation. – Herman Melville",
+  "The secret of getting ahead is getting started. – Mark Twain",
+  "You have to fight to reach your dream. You have to sacrifice and work hard for it. – Lionel Messi",
+  "Perseverance and spirit have done wonders in all ages. – George Washington",
+  "We are what we repeatedly do. Excellence, then, is not an act, but a habit. – Aristotle",
+  "In matters of style, swim with the current; in matters of principle, stand like a rock. – Thomas Jefferson",
+  "Do not wait for leaders; do it alone, person to person. – Mother Teresa",
+  "If you want to change the world, change yourself. – Mahatma Gandhi",
+  "Science is magic that works. – Kurt Vonnegut",
+  "What you learn from a life in science is the vastness of our ignorance. – David Eagleman",
+  "The greatest enemy of knowledge is not ignorance, it is the illusion of knowledge. – Stephen Hawking",
+  "Science is a way of thinking much more than it is a body of knowledge. – Carl Sagan",
+  "Intelligence plus character – that is the goal of true education. – Martin Luther King Jr.",
+  "The biggest risk is not taking any risk… In a world that’s changing really quickly, the only strategy that is guaranteed to fail is not taking risks. – Mark Zuckerberg",
+  "Don’t be afraid to fail. Be afraid not to try. – Michael Jordan",
+  "If you want to achieve greatness, stop asking for permission. – Eddie Colla",
+  "Take risks. If you win, you’ll be happy. If you lose, you’ll be wise. – Gina Milicia",
+  "Do not be afraid to take chances or fall down. Every failure is a step toward success. – Oprah Winfrey",
+  "Just do it. – Dan Wieden",
+  "Don’t wait for opportunity. Create it. – Stephen C. Hogan",
+  "You miss 100% of the shots you don’t take. – Wayne Gretzky",
+  "If you’re not willing to risk, you cannot grow. If you cannot grow, you cannot become your best. If you cannot become your best, you cannot be happy. If you cannot be happy, what else is there? – Les Brown",
+  "You can’t cross the sea merely by standing and staring at the water. – Rabindranath Tagore",
+  "I always wanted to be somebody, but now I realize I should have been more specific. – Lily Tomlin",
+  "I’m not great at the advice. Can I interest you in a sarcastic comment? – Chandler Bing",
+  "The elevator to success is out of order. You’ll have to use the stairs… one step at a time. – Joe Girard",
+  "I find television very educating. Every time somebody turns on the set, I go into the other room and read a book. – Groucho Marx",
+  "If at first, you don’t succeed, then skydiving definitely isn’t for you. – Steven Wright",
+  "Always remember that you are absolutely unique. Just like everyone else. – Margaret Mead",
+  "My advice to you is get married: If you find a good wife you’ll be happy; if not, you’ll become a philosopher. – Socrates",
+  "I’m sorry, if you were right, I’d agree with you. – Robin Williams",
+  "Life is hard. After all, it kills you. – Katharine Hepburn",
+  "Life is either a daring adventure or nothing at all. – Helen Keller",
+  "The purpose of life is to live it, to taste experience to the utmost, to reach out eagerly and without fear for a newer and richer experience. – Eleanor Roosevelt",
+  "Life is like riding a bicycle. To keep your balance, you must keep moving. – Albert Einstein",
+  "Get busy living or get busy dying. – Stephen King",
+  "A life is not important except in the impact it has on other lives. – Jackie Robinson",
+  "The biggest adventure you can ever take is to live the life of your dreams. – Oprah Winfrey",
+  "Life is a great big canvas, and you should throw all the paint on it you can. – Danny Kaye",
+  "May you live all the days of your life. – Jonathan Swift",
+  "Life is not a problem to be solved, but a reality to be experienced. – Soren Kierkegaard",
+  "The art of life is to know how to enjoy a little and to endure very much. – William Hazlitt",
+  "The man who does not read books has no advantage over the one who cannot read them. – Mark Twain",
+  "Believe in yourself and all that you are. Know that there is something inside you that is greater than any obstacle. – Christian D. Larson",
+  "Education is the passport to the future, for tomorrow belongs to those who prepare for it today. – Malcolm X",
+  "Don’t let yesterday take up too much of today. – Will Rogers",
+  "I choose to make the rest of my life the best of my life. – Louise Hay",
+  "Nothing can dim the light that shines from within. – Maya Angelou",
+  "Be so good they can’t ignore you. – Steve Martin",
+  "You’re so much stronger than your excuses.",
+  "Don’t compare yourself to others. Be like the sun and the moon and shine when it’s your time.",
+  "Don’t tell everyone your plans, instead show them your results.",
+  "Work hard in silence, let your success be your noise.",
+  "When you feel like quitting think about why you started.",
+  "The first step to getting anywhere is deciding you’re no longer willing to stay where you are.",
+  "Strive for progress, not perfection.",
+  "I can do all things through Christ who strengthens me.",
+  "Just stick with it. What seems so hard now will one day be your warm up.",
+  "Entrepreneurship is living a few years of your life like most people won’t, so that you can spend the rest of your life like most people can’t.",
+  "Starve your distractions, feed your focus.",
+  "Everybody wants happiness, nobody wants pain, but you can’t have a rainbow without a little rain.",
+  "Someone once told me the definition of Hell: The last day you have on earth, the person you became will meet the person you could have become.",
+  "If you don’t sacrifice for what you want, what you want becomes the sacrifice.",
+  "I’m too busy working on my own grass to notice if yours is greener.",
+  "I need a six month vacation twice a year.",
+  "Next time you think of beautiful things, don’t forget to count yourself in.",
+  "The real trouble with reality is that there is no background music.",
+  "You live, you learn, and you upgrade.",
+  "It hurts now, but one day it will be your warm up.",
+  "The pain you feel today is the strength you’ll feel tomorrow.",
+  "Summer bodies are made in the winter.",
+  "Excuses don’t burn calories.",
+  "Obsessed is a word the lazy use to describe the dedicated.",
+  "Dad is a son's first hero and a daughter's first love.",
+  "You’re only one workout away from a good mood.",
+  "Focus on where you want to go, not on what you fear. – Tony Robbins",
+  "Change happens when the pain of staying the same is greater than the pain of change. – Tony Robbins",
+  "Repetition is the mother of skill. – Tony Robbins",
+  "No matter how many mistakes you make or how slow you progress, you are still way ahead of everyone who isn’t trying. – Tony Robbins",
+  "Whatever you focus on is what you get. – Tony Robbins",
+  "Progress equals happiness. – Tony Robbins",
+  "If you do what you’ve always done, you’ll get what you’ve always gotten. – Tony Robbins",
+  "Stay committed to your decisions, but stay flexible in your approach. – Tony Robbins",
+  "If you want to take the island, then burn your boats. With absolute commitment come the insights that create real victory. – Tony Robbins"
+
+]
+,
+      study: [
+  "Education is the most powerful weapon which you can use to change the world. – Nelson Mandela",
+  "The beautiful thing about learning is nobody can take it away from you. – B.B. King",
+  "Study hard, for the well is deep, and our brains are shallow. – Richard Baxter",
+  "Success is the sum of small efforts, repeated day in and day out. – Robert Collier",
+  "Live as if you were to die tomorrow. Learn as if you were to live forever. – Mahatma Gandhi",
+  "Learning never exhausts the mind. – Leonardo da Vinci",
+  "An investment in knowledge pays the best interest. – Benjamin Franklin",
+  "The roots of education are bitter, but the fruit is sweet. – Aristotle",
+  "Education is not the filling of a pail, but the lighting of a fire. – William Butler Yeats",
+  "The more that you read, the more things you will know. – Dr. Seuss",
+  "Education is the passport to the future, for tomorrow belongs to those who prepare for it today. – Malcolm X",
+  "It is not that I'm so smart, it's just that I stay with problems longer. – Albert Einstein",
+  "Learning is not attained by chance, it must be sought for with ardor and diligence. – Abigail Adams",
+  "The expert in anything was once a beginner. – Helen Hayes",
+  "Don't let what you cannot do interfere with what you can do. – John Wooden",
+  "Success doesn’t come to you, you go to it. – Marva Collins",
+  "Push yourself, because no one else is going to do it for you. – Unknown",
+  "The future belongs to those who believe in the beauty of their dreams. – Eleanor Roosevelt",
+  "Dream big and dare to fail. – Norman Vaughan",
+  "Start where you are. Use what you have. Do what you can. – Arthur Ashe",
+  "There are no shortcuts to any place worth going. – Beverly Sills",
+  "Education is not preparation for life; education is life itself. – John Dewey",
+  "You don’t have to be great to start, but you have to start to be great. – Zig Ziglar",
+  "Procrastination makes easy things hard and hard things harder. – Mason Cooley",
+  "You can never be overdressed or overeducated. – Oscar Wilde",
+  "The difference between ordinary and extraordinary is that little extra. – Jimmy Johnson",
+  "The only place where success comes before work is in the dictionary. – Vidal Sassoon",
+  "Learning is a treasure that will follow its owner everywhere. – Chinese Proverb",
+  "Strive for progress, not perfection. – Unknown",
+  "Success is not the key to happiness. Happiness is the key to success. – Albert Schweitzer",
+  "The harder you work for something, the greater you'll feel when you achieve it. – Unknown",
+  "Your education is a dress rehearsal for a life that is yours to lead. – Nora Ephron",
+  "Success is stumbling from failure to failure with no loss of enthusiasm. – Winston Churchill",
+  "Knowledge will bring you the opportunity to make a difference. – Claire Fagin",
+  "Learning is a lifelong process. – Unknown",
+  "Today a reader, tomorrow a leader. – Margaret Fuller",
+  "You learn something every day if you pay attention. – Ray LeBlond",
+  "Study while others are sleeping; work while others are loafing; prepare while others are playing; and dream while others are wishing. – William A. Ward",
+  "To acquire knowledge, one must study; but to acquire wisdom, one must observe. – Marilyn vos Savant",
+  "If you can dream it, you can do it. – Walt Disney",
+  "Education is simply the soul of a society as it passes from one generation to another. – G.K. Chesterton",
+  "Success usually comes to those who are too busy to be looking for it. – Henry David Thoreau",
+  "Excellence is not a skill. It is an attitude. – Ralph Marston",
+  "Be so good they can’t ignore you. – Steve Martin",
+  "Work gives you meaning and purpose and life is empty without it. – Stephen Hawking",
+  "Study like there’s no tomorrow because if you keep putting it off, you’ll have no tomorrow. – Unknown",
+  "Learn from yesterday, live for today, hope for tomorrow. – Albert Einstein",
+  "Education breeds confidence. Confidence breeds hope. Hope breeds peace. – Confucius",
+  "Opportunities don't happen. You create them. – Chris Grosser",
+  "The way to get started is to quit talking and begin doing. – Walt Disney",
+  "Action is the foundational key to all success. – Pablo Picasso",
+  "Do one thing every day that scares you. – Eleanor Roosevelt",
+  "The mind is not a vessel to be filled, but a fire to be kindled. – Plutarch",
+  "Do not wait to strike till the iron is hot; but make it hot by striking. – William Butler Yeats",
+  "Success isn’t always about greatness. It’s about consistency. – Dwayne Johnson",
+  "If you don’t value your time, neither will others. – Kim Garst",
+  "He who opens a school door, closes a prison. – Victor Hugo",
+  "Education is the key to unlock the golden door of freedom. – George Washington Carver",
+  "Hard work beats talent when talent doesn't work hard. – Tim Notke",
+  "It always seems impossible until it’s done. – Nelson Mandela",
+  "Motivation is what gets you started. Habit is what keeps you going. – Jim Rohn",
+  "Don’t wish it were easier; wish you were better. – Jim Rohn",
+  "The man who does not read has no advantage over the man who cannot read. – Mark Twain",
+  "Formal education will make you a living; self-education will make you a fortune. – Jim Rohn",
+  "Learning is not compulsory... neither is survival. – W. Edwards Deming",
+  "The secret of getting ahead is getting started. – Mark Twain",
+  "If you’re not willing to learn, no one can help you. If you’re determined to learn, no one can stop you. – Zig Ziglar",
+  "Don’t let schooling interfere with your education. – Mark Twain",
+  "Be curious, not judgmental. – Walt Whitman",
+  "If we teach today’s students as we taught yesterday’s, we rob them of tomorrow. – John Dewey",
+  "Do not be embarrassed by your failures, learn from them and start again. – Richard Branson",
+  "Success is not final, failure is not fatal: It is the courage to continue that counts. – Winston Churchill",
+  "Wisdom is not a product of schooling but of the lifelong attempt to acquire it. – Albert Einstein",
+  "A person who won’t read has no advantage over one who can’t read. – Mark Twain",
+  "The capacity to learn is a gift; the ability to learn is a skill; the willingness to learn is a choice. – Brian Herbert",
+  "It’s not about how bad you want it. It’s about how hard you’re willing to work for it. – Unknown",
+  "Discipline is the bridge between goals and accomplishment. – Jim Rohn",
+  "The will to succeed is important, but what’s more important is the will to prepare. – Bobby Knight",
+  "There is no elevator to success. You have to take the stairs. – Zig Ziglar",
+  "Do something today that your future self will thank you for. – Sean Patrick Flanery",
+  "Study hard, no matter if it seems boring. The results will be worth it. – Unknown",
+  "Your dreams don’t work unless you do. – John C. Maxwell",
+  "Education is the movement from darkness to light. – Allan Bloom",
+  "The best way to predict the future is to create it. – Peter Drucker",
+  "A journey of a thousand miles begins with a single step. – Lao Tzu",
+  "Nothing will work unless you do. – Maya Angelou",
+  "Fall seven times, stand up eight. – Japanese Proverb",
+  "Success is no accident. It is hard work, perseverance, learning, studying, sacrifice and most of all, love of what you are doing. – Pelé",
+  "A dream becomes a goal when action is taken toward its achievement. – Bo Bennett",
+  "I am not a product of my circumstances. I am a product of my decisions. – Stephen Covey",
+  "The best way out is always through. – Robert Frost",
+  "Only the educated are free. – Epictetus",
+  "You don’t have to see the whole staircase, just take the first step. – Martin Luther King Jr.",
+  "What we learn becomes a part of who we are. – Unknown",
+  "Be a student as long as you still have something to learn, and this will mean all your life. – Henry L. Doherty",
+  "Education’s purpose is to replace an empty mind with an open one. – Malcolm Forbes",
+  "What sculpture is to a block of marble, education is to the human soul. – Joseph Addison",
+  "Genius without education is like silver in the mine. – Benjamin Franklin"]
+    };
+
+    function generateQuote() {
+      const category = document.getElementById('category').value;
+      const quoteList = quotes[category];
+      const randomIndex = Math.floor(Math.random() * quoteList.length);
+      document.getElementById('quote').textContent = quoteList[randomIndex];
+    }
+  </script>
+</body>
+</html>

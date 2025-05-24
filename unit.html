@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Advanced Unit Converter</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px 25px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #444;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .result {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🌐 Unit Converter</h2>
+
+    <select id="conversionType">
+      <option value="length">Length</option>
+      <option value="temperature">Temperature</option>
+      <option value="weight">Weight</option>
+      <option value="speed">Speed</option>
+      <option value="area">Area</option>
+    </select>
+
+    <select id="conversionDirection"></select>
+
+    <input type="number" id="inputValue" placeholder="Enter value" />
+
+    <div class="result" id="result">Converted value will appear here</div>
+  </div>
+
+  <script>
+    const conversionType = document.getElementById('conversionType');
+    const conversionDirection = document.getElementById('conversionDirection');
+    const inputValue = document.getElementById('inputValue');
+    const result = document.getElementById('result');
+
+    const conversions = {
+      length: [
+        { label: "Meters to Feet", fn: v => (v * 3.28084).toFixed(2) + " ft" },
+        { label: "Feet to Meters", fn: v => (v / 3.28084).toFixed(2) + " m" },
+        { label: "Kilometers to Miles", fn: v => (v * 0.621371).toFixed(2) + " mi" },
+        { label: "Miles to Kilometers", fn: v => (v / 0.621371).toFixed(2) + " km" },
+      ],
+      temperature: [
+        { label: "Celsius to Fahrenheit", fn: v => ((v * 9 / 5) + 32).toFixed(2) + " °F" },
+        { label: "Fahrenheit to Celsius", fn: v => ((v - 32) * 5 / 9).toFixed(2) + " °C" },
+      ],
+      weight: [
+        { label: "Kilograms to Pounds", fn: v => (v * 2.20462).toFixed(2) + " lbs" },
+        { label: "Pounds to Kilograms", fn: v => (v / 2.20462).toFixed(2) + " kg" },
+      ],
+      speed: [
+        { label: "KMPH to MPH", fn: v => (v * 0.621371).toFixed(2) + " mph" },
+        { label: "MPH to KMPH", fn: v => (v / 0.621371).toFixed(2) + " km/h" },
+      ],
+      area: [
+        { label: "Square Meters to Square Feet", fn: v => (v * 10.7639).toFixed(2) + " sq ft" },
+        { label: "Square Feet to Square Meters", fn: v => (v / 10.7639).toFixed(2) + " m²" },
+      ]
+    };
+
+    function updateDirectionOptions() {
+      const type = conversionType.value;
+      conversionDirection.innerHTML = "";
+      conversions[type].forEach((conv, idx) => {
+        const option = document.createElement('option');
+        option.value = idx;
+        option.textContent = conv.label;
+        conversionDirection.appendChild(option);
+      });
+    }
+
+    function performConversion() {
+      const type = conversionType.value;
+      const dir = parseInt(conversionDirection.value);
+      const value = parseFloat(inputValue.value);
+      if (!isNaN(value)) {
+        const converted = conversions[type][dir].fn(value);
+        result.textContent = `Result: ${converted}`;
+      } else {
+        result.textContent = "Please enter a valid number.";
+      }
+    }
+
+    conversionType.addEventListener("change", () => {
+      updateDirectionOptions();
+      performConversion();
+    });
+
+    conversionDirection.addEventListener("change", performConversion);
+    inputValue.addEventListener("input", performConversion);
+
+    // Initialize
+    updateDirectionOptions();
+  </script>
+</body>
+</html>

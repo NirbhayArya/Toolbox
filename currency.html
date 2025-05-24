@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Currency Converter</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #43cea2, #185a9d);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .currency-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .currency-row input {
+      flex: 1;
+    }
+
+    .swap-button {
+      background: #f39c12;
+      color: white;
+      border: none;
+      font-size: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      margin: 10px auto;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .swap-button:hover {
+      background: #e67e22;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.3em;
+      font-weight: bold;
+      color: #444;
+    }
+
+    @media (max-width: 500px) {
+      .currency-row {
+        flex-direction: column;
+      }
+
+      .swap-button {
+        margin: 10px auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>💱 Currency Converter</h2>
+
+    <input type="number" id="amount" placeholder="Enter amount" />
+
+    <div class="currency-row">
+      <input list="currencyList" id="fromCurrency" placeholder="From (e.g. USD)" />
+      <input list="currencyList" id="toCurrency" placeholder="To (e.g. INR)" />
+    </div>
+    <datalist id="currencyList"></datalist>
+
+    <button class="swap-button" id="swapBtn">⇆</button>
+
+    <div class="result" id="result">Converted value will appear here</div>
+  </div>
+
+  <script>
+    const amountEl = document.getElementById("amount");
+    const fromEl = document.getElementById("fromCurrency");
+    const toEl = document.getElementById("toCurrency");
+    const resultEl = document.getElementById("result");
+    const currencyList = document.getElementById("currencyList");
+    const swapBtn = document.getElementById("swapBtn");
+
+    let rates = {};
+
+    // Fetch exchange rates and populate datalist
+    async function loadCurrencies() {
+  try {
+    const res = await fetch("https://v6.exchangerate-api.com/v6/f5d0aa7113b276acf46ee48c/latest/USD");
+    const data = await res.json();
+    console.log("API response:", data);
+
+    if (data.result !== "success") {
+      throw new Error("API error: " + (data["error-type"] || "Unknown error"));
+    }
+
+    rates = data.conversion_rates;
+
+    const options = Object.keys(rates).sort();
+    options.forEach(code => {
+      const opt = document.createElement("option");
+      opt.value = code;
+      currencyList.appendChild(opt);
+    });
+
+    fromEl.value = "USD";
+    toEl.value = "INR";
+    convert();
+  } catch (err) {
+    resultEl.textContent = "Failed to load currencies.";
+    console.error(err);
+  }
+}
+
+
+    // Swap from/to currency
+    swapBtn.addEventListener("click", () => {
+      const temp = fromEl.value;
+      fromEl.value = toEl.value;
+      toEl.value = temp;
+      convert();
+    });
+
+    // Convert function
+    function convert() {
+      const amount = parseFloat(amountEl.value);
+      const from = fromEl.value.toUpperCase();
+      const to = toEl.value.toUpperCase();
+
+      if (!rates[from] || !rates[to] || isNaN(amount)) {
+        resultEl.textContent = "Enter a valid amount and currency codes.";
+        return;
+      }
+
+      const converted = ((amount / rates[from]) * rates[to]).toFixed(2);
+      resultEl.textContent = `${amount} ${from} = ${converted} ${to}`;
+    }
+
+    amountEl.addEventListener("input", convert);
+    fromEl.addEventListener("input", convert);
+    toEl.addEventListener("input", convert);
+
+    loadCurrencies();
+  </script>
+</body>
+</html>
